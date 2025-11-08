@@ -22,3 +22,18 @@
 
 6. konsep hot reload di flutter memungkinkan kita ngelihat perubahan kode secara langsung tanpa harus ngulang aplikasi dari awal. ini berguna buat ubah tampilan, warna, atau teks dengan cepat.
    sementara itu, hot restart bakal merestart seluruh aplikasi dan ngulang semua state dari awal, cocok kalau ada perubahan besar yang gak bisa ditangani hot reload.
+
+7. navigator.push() nambah halaman baru di atas halaman sekarang, jadi bisa balik ke halaman sebelumnya.
+navigator.pushreplacement() ganti halaman sekarang dengan yang baru, jadi ga bisa balik.
+push() dipakai buat navigasi sementara (misal liat detail produk), sedangkan pushreplacement() dipakai buat pindah dari home ke form biar ga numpuk di stack.
+
+8. scaffold jadi kerangka utama halaman, appbar buat judul dan identitas aplikasi, dan drawer buat navigasi antarhalaman. semua halaman pakai struktur ini biar tampilannya konsisten dan navigasinya gampang.
+
+9. padding bikin jarak antar-elemen biar rapi,
+singlechildscrollview biar form bisa discroll kalau panjang,
+listview biar semua elemen form tersusun vertikal dan fleksibel.
+contohnya di form tambah produk kickback, semua input dibungkus listview biar bisa discroll.
+
+10. warna tema diset lewat colorscheme di materialapp.
+kickback pakai warna biru dan indigo biar keliatan modern dan sesuai nuansa toko olahraga.
+warna ini juga dipakai di appbar dan tombol biar konsisten.
