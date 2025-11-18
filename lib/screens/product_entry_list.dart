@@ -20,11 +20,10 @@ class ProductEntryListPage extends StatefulWidget {
 
 class _ProductEntryListPageState extends State<ProductEntryListPage> {
   Future<List<ProductEntry>> fetchProduct(CookieRequest request) async {
-    String url = "http://localhost:8000/json/";
+    String url = 'http://localhost:8000/json/';
 
-    // Mode "my" → Django sudah support filter=user via GET parameter
     if (widget.mode == "my") {
-      url = "http://localhost:8000/json/?filter=my";
+      url = 'http://localhost:8000/json/?filter=my';
     }
 
     final response = await request.get(url);
@@ -35,54 +34,50 @@ class _ProductEntryListPageState extends State<ProductEntryListPage> {
         listProduct.add(ProductEntry.fromJson(d));
       }
     }
-
     return listProduct;
   }
 
   @override
   Widget build(BuildContext context) {
     final request = context.watch<CookieRequest>();
-
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          widget.mode == "my"
-              ? "My Products"
-              : "All Products",
+          widget.mode == "my" ? 'My Products' : 'All Products',
         ),
       ),
       drawer: const LeftDrawer(),
       body: FutureBuilder(
         future: fetchProduct(request),
         builder: (context, AsyncSnapshot snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
+          if (snapshot.data == null) {
             return const Center(child: CircularProgressIndicator());
+          } else {
+            if (!snapshot.hasData || snapshot.data!.isEmpty) {
+              return const Center(
+                child: Text(
+                  'There are no products in Kickback yet.',
+                  style: TextStyle(fontSize: 18, color: Color(0xff59A5D8)),
+                ),
+              );
+            } else {
+              return ListView.builder(
+                itemCount: snapshot.data!.length,
+                itemBuilder: (_, index) => ProductEntryCard(
+                  product: snapshot.data![index],
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            ProductDetailPage(product: snapshot.data![index]),
+                      ),
+                    );
+                  },
+                ),
+              );
+            }
           }
-
-          if (!snapshot.hasData || snapshot.data.isEmpty) {
-            return const Center(
-              child: Text(
-                "No products found.",
-                style: TextStyle(fontSize: 18),
-              ),
-            );
-          }
-
-          return ListView.builder(
-            itemCount: snapshot.data!.length,
-            itemBuilder: (_, index) => ProductEntryCard(
-              product: snapshot.data![index],
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) =>
-                        ProductDetailPage(product: snapshot.data![index]),
-                  ),
-                );
-              },
-            ),
-          );
         },
       ),
     );
