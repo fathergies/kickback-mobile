@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:kickback/widgets/left_drawer.dart';
 import 'package:kickback/screens/productlist_form.dart';
+import 'package:kickback/screens/product_entry_list.dart';
+
 
 class MyHomePage extends StatelessWidget {
   const MyHomePage({super.key});
 
   final String nama = "Angelique Natasya Braveina Chelsey Siagian";
   final String npm = "2406496006";
-  final String kelas = "Sistem Informasi 2024";
+  final String kelas = "F";
 
   final List<ItemHomepage> items = const [
     ItemHomepage("View Products", Icons.store, Colors.blue),
@@ -91,15 +93,36 @@ class ItemCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: item.color, 
+      color: item.color,
       borderRadius: BorderRadius.circular(12),
       child: InkWell(
         borderRadius: BorderRadius.circular(12),
         onTap: () {
+          // SnackBar info
           ScaffoldMessenger.of(context)
             ..hideCurrentSnackBar()
-            ..showSnackBar(SnackBar(
-                content: Text("Kamu telah menekan tombol ${item.name}!")));
+            ..showSnackBar(
+              SnackBar(content: Text("Kamu telah menekan tombol ${item.name}!")),
+            );
+
+          // LOGIC NAVIGASI
+          if (item.name == "View Products") {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ProductEntryListPage(mode: "all"),
+              ),
+            );
+          }
+
+          if (item.name == "My Products") {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ProductEntryListPage(mode: "my"),
+              ),
+            );
+          }
 
           if (item.name == "Add Product") {
             Navigator.push(
@@ -135,6 +158,7 @@ class ItemCard extends StatelessWidget {
     );
   }
 }
+
 
 
 class InfoCard extends StatelessWidget {

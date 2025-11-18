@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kickback/screens/productlist_form.dart';
+import 'package:kickback/screens/product_entry_list.dart'
 
 class ItemHomepage {
   final String name;
@@ -34,6 +35,14 @@ class ItemCard extends StatelessWidget {
               ),
             );
           }
+          else if (item.name == "See Products") {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const ProductEntryListPage()
+                ),
+            );
+        }
         },
         child: Padding(
           padding: const EdgeInsets.all(12),
